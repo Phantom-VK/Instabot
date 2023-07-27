@@ -1,7 +1,7 @@
 import requests
 import random
 import tkinter as tk
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk, ImageDraw, ImageFont, ImageFilter
 from io import BytesIO
 
 # Important links
@@ -39,13 +39,25 @@ def view_image():
     window_width = 1920
     window_height = 1080
 
-
     root.geometry(f"{window_width}x{window_height}")
     final_image = get_image(link)
 
     if final_image:
         # Resize the image to fit the window
         image = final_image.resize((window_width, window_height), Image.LANCZOS)
+
+        # Add text to the image
+        draw = ImageDraw.Draw(image)
+        text = "Hello there how are you"  # Replace this with the desired text
+        font_size = 60
+        font = ImageFont.truetype("arial.ttf", font_size)
+        text_width, text_height = draw.textsize(text, font=font)
+        text_position = ((window_width - text_width) // 2, (window_height - text_height) // 2)
+        text_color = (255, 255, 255)  # RGB color of the text (white in this case)
+        draw.text(text_position, text, fill=text_color, font=font)
+
+        # Apply image filter (optional, you can remove this line if not needed)
+        image = image.filter(ImageFilter.GaussianBlur(radius=3))
 
         # Convert the image to a PhotoImage object
         photo = ImageTk.PhotoImage(image)
@@ -58,6 +70,7 @@ def view_image():
 
         # Pack the image label to make it visible in the window
         image_label.pack(pady=20)
+
     else:
         # If no image is available, display an error message
         error_label = tk.Label(text="Error fetching the image from Pexels API.")
