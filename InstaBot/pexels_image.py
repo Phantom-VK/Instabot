@@ -3,6 +3,7 @@ import random
 import tkinter as tk
 from PIL import Image, ImageTk, ImageDraw, ImageFont, ImageFilter
 from io import BytesIO
+import random_quote
 
 # Important links
 url = "https://api.pexels.com/v1/curated"
@@ -36,8 +37,8 @@ def get_image(photo_url):
 def view_image():
     root = tk.Tk()
     root.title("Todays Quote")
-    window_width = 1920
-    window_height = 1080
+    window_width = 1280
+    window_height = 720
 
     root.geometry(f"{window_width}x{window_height}")
     final_image = get_image(link)
@@ -48,16 +49,16 @@ def view_image():
 
         # Add text to the image
         draw = ImageDraw.Draw(image)
-        text = "Hello there how are you"  # Replace this with the desired text
-        font_size = 60
-        font = ImageFont.truetype("arial.ttf", font_size)
+        text = random_quote.print_quote()
+        font_size = 40
+        font = ImageFont.truetype("times.ttf", font_size)
         text_width, text_height = draw.textsize(text, font=font)
         text_position = ((window_width - text_width) // 2, (window_height - text_height) // 2)
         text_color = (255, 255, 255)  # RGB color of the text (white in this case)
         draw.text(text_position, text, fill=text_color, font=font)
 
         # Apply image filter (optional, you can remove this line if not needed)
-        image = image.filter(ImageFilter.GaussianBlur(radius=3))
+        image = image.filter(ImageFilter.GaussianBlur(radius=1))
 
         # Convert the image to a PhotoImage object
         photo = ImageTk.PhotoImage(image)
