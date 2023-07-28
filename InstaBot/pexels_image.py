@@ -51,7 +51,7 @@ def view_image():
         draw = ImageDraw.Draw(image)
         text = random_quote.print_quote()
         font_size = 40
-        font = ImageFont.truetype("times.ttf", font_size)
+        font = ImageFont.truetype("arial.ttf", font_size)
         text_width, text_height = draw.textsize(text, font=font)
         text_position = ((window_width - text_width) // 2, (window_height - text_height) // 2)
         text_color = (255, 255, 255)  # RGB color of the text (white in this case)
